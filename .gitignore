@@ -1,0 +1,13 @@
+php74base/
+tarscontroller/
+tarsimage/
+tarsnode/
+tarsregistry/
+tarslog/
+tarsnotify/
+tarsproperty/
+tarsqueryproperty/
+tarsquerystat/
+tarsstat/
+tarsconfig/
+tarsweb/
