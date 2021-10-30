@@ -1,0 +1,54 @@
+app: Test 
+server: TestServer
+template: tars.nodejs
+profile: ""
+servants:
+  - name: WebObj
+    port: 10000
+    isTars: true
+    isTcp: true
+    thread: 3
+    capacity: 10000
+    connection: 10000
+    timeout: 20000
+replicas: 2
+envVars:
+hostNetwork: false
+hostIPC: false
+hostPorts: []
+repo:
+  id: id-test-6
+  image: busybox:latest
+  secret: tars-image-secret
+mounts:
+  - name: test-host-path
+    source:
+      hostPath:
+        path: /data/test-host-path
+        type: DirectoryOrCreate
+    mountPath: /data/mount-path
+    subPathExpr: $(Namespace)/$(PodName)
+  - name: test-pvc
+    source:
+      persistentVolumeClaim:
+        claimName: remote_log_pvc
+        readOnly: false
+  - name: storage-data
+    mountPath: /storage-data
+    source:
+      tLocalVolume: {}
+appConfig: 
+  - name: app.json
+    content: |
+      app config content
+nodeConfig:
+  - name: config.json
+    podSeq: 0
+    content: |
+      node config
+config:
+  - name: config.json
+    content: |
+      test1
+      test2
+    

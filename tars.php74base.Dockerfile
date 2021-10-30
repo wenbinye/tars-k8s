@@ -3,8 +3,9 @@ FROM ubuntu:20.04 as build
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/;s/security.ubuntu.com/mirrors.aliyun.com/;' /etc/apt/sources.list
-RUN apt update
-RUN apt install -y php-dev binutils
+RUN apt-get update
+RUN apt-get install -y php-dev binutils
+RUN apt-get install -y libcurl4-openssl-dev
 
 ENV SWOOLE_VERSION=4.6.7
 RUN yes yes | pecl install swoole-$SWOOLE_VERSION
@@ -16,7 +17,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     ServerType=php
 
 RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/;s/security.ubuntu.com/mirrors.aliyun.com/;' /etc/apt/sources.list \
-  && apt update && apt install -y \
+  && apt-get update && apt-get install -y \
   php-cli \
   php-curl \
   php-fileinfo \

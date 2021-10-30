@@ -1,0 +1,6 @@
+dependencies:
+- name: tserver
+  repository: file://../../tars-server
+  version: 1.0.0
+digest: sha256:1491e9a5f3b34afed1ca49a48fe186e630a6728241bce73edeb124a7046b59c6
+generated: "2021-09-16T10:26:57.450321+08:00"
