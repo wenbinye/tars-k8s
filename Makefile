@@ -2,7 +2,7 @@ builddir = ../K8SFramework/build
 registry = tarscloud
 tag = v1.0.0
 
-tars: tarsweb tarsagent tarscontroller tarsregistry tarsnode tarsimage tarsconfig tarslog tarsnotify tarsproperty tarsqueryproperty tarsquerystat tarsstat
+tars: tarscontroller tarsregistry tarsnode tarsimage tarsconfig tarslog tarsnotify tarsproperty tarsqueryproperty tarsquerystat tarsstat tarsweb tarsagent 
 
 php74base:
 	mkdir -p $@/files
@@ -28,19 +28,13 @@ tarscontroller:
 	cp -r $(builddir)/files/template/$@ $@/files/template/
 	docker build -t $(registry)/$@:$(tag) -f $(builddir)/$@.Dockerfile $@
 
-# tarsgent: 
-# 	mkdir -p $@/files/binary $@/files/template
-# 	cp $(builddir)/files/binary/$@ $@/files/binary/
-# 	cp -r $(builddir)/files/template/tarsimage $@/files/template/
-# 	docker build -t $(registry)/$@:$(tag) -f $(builddir)/$@.Dockerfile $@
-
 tarsweb: 
 	docker pull $(registry)/tars.tarsweb:$(tag)
 
 tarsagent:
 	docker pull $(registry)/tarsagent:$(tag)
 
-.PHONY : tarscontroller tarsimage tarsgent tarsregistry tarsnode tarsconfig tarslog tarsnotify tarsproperty tarsqueryproperty tarsquerystat tarsstat php74base
+.PHONY : tarsweb tarscontroller tarsimage tarsgent tarsregistry tarsnode tarsconfig tarslog tarsnotify tarsproperty tarsqueryproperty tarsquerystat tarsstat php74base
 
 tag:
 	docker tag tarscloud/tars.tarsconfig:$(tag)         $(registry)/tars.tarsconfig:$(tag)
@@ -71,3 +65,4 @@ push pull:
 	docker $@ $(registry)/tarsagent:$(tag)
 	docker $@ $(registry)/tarscontroller:$(tag)
 	docker $@ $(registry)/helm.wait:$(tag)
+
