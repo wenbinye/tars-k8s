@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir=`dirname $0`
+dir=`dirname $(realname $0)`
 if [ $# -lt 2 ]; then
     echo "Usage: $0 YamlFile Tag"
     echo "for example, $0 yaml/values.yaml latest"
