@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir=`dirname $(realname $0)`
+dir=`dirname $(realpath $0)`
 if [ $# -lt 2 ]; then
     echo "Usage: $0 YamlFile Tag"
     echo "for example, $0 yaml/values.yaml latest"
@@ -59,8 +59,10 @@ function build_helm()
     yq write -i $dir/helm-template/values.yaml repo.id $REPO_ID
     yq write -i $dir/helm-template/values.yaml repo.image $IMAGE
 
-    # helm dependency update $dir/helm-template
-
+    if ! [ -d $dir/helm-template/charts ] ; then
+        helm dependency update $dir/helm-template
+    fi
+    
     helm package $dir/helm-template
     
     echo "---------------------helm chart--------------------------"

@@ -73,7 +73,6 @@ spec:
     source: {{ .Values.app | lower }}-{{ .Values.server | lower }}
     id: {{ .Values.repo.id | quote }}
     image: {{ .Values.repo.image }}
-    secret: {{ .Values.repo.secret }}
 
 ---
 
@@ -148,13 +147,11 @@ metadata:
 imageType: server
 releases:
 - image: {{ .Values.repo.image }}
-  secret: {{ .Values.repo.secret }}
   id: {{ .Values.repo.id }}
   createPerson: {{ $.Values.user | default "helm" | quote }}
   mark: {{ $.Values.reason | default "helm install" | quote }}
 {{- range $index, $service := (lookup "k8s.tars.io/v1beta1" "TImage" $.Release.Namespace $id ).releases }}  
 - image: {{ $service.image }}
-  secret: {{ $service.secret }}
   id: {{ $service.id }}
   createPerson: {{ $service.createPerson | default "helm" }}
   mark: {{ $service.mark | default "helm install" | quote }}
