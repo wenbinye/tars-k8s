@@ -28,8 +28,12 @@ tarscontroller:
 	cp -r $(builddir)/files/template/$@ $@/files/template/
 	docker build -t $(registry)/$@:$(tag) -f $(builddir)/$@.Dockerfile $@
 
-tarsweb: 
-	docker pull $(registry)/tars.tarsweb:$(tag)
+tarsweb:
+	mkdir -p $@/files/binary files/template
+	cp $(builddir)/files/binary/tars2case $@/files/binary
+	cp -r $(builddir)/files/template/$@ $@/files/template
+	git -C ../TarsWeb archive HEAD > $@/tarsweb.tar
+	docker build -t $(registry)/tars.$@:$(tag) -f tars.$@.Dockerfile $@
 
 tarsagent:
 	docker pull $(registry)/tarsagent:$(tag)
