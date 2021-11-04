@@ -15,6 +15,10 @@
   valueFrom:
     fieldRef:
       fieldPath: metadata.labels['tars.io/ServerApp']
+- name: ServerName
+  valueFrom:
+    fieldRef:
+      fieldPath: metadata.labels['tars.io/ServerName']
 {{- if .Values.envVars -}}
 {{ range .Values.envVars }}
 - name: {{ .name }}

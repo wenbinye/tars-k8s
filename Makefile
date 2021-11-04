@@ -6,6 +6,7 @@ tars: tarscontroller tarsregistry tarsnode tarsimage tarsconfig tarslog tarsnoti
 
 php74base:
 	mkdir -p $@/files
+	cp .bash_aliases $@/files
 	cp $(builddir)/files/entrypoint.sh $@/files
 	docker build -t $(registry)/tars.$@:$(tag) -f tars.$@.Dockerfile $@
 

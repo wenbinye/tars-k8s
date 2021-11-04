@@ -32,6 +32,7 @@ RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/;s/security.ubuntu.com/mirro
 
 COPY --from=build /usr/lib/php/20190902/swoole.so /usr/lib/php/20190902/
 COPY files/entrypoint.sh /bin/entrypoint.sh
+COPY files/.bash_aliases /root/
 
 RUN  ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
   && echo Asia/Shanghai > /etc/timezone \
@@ -40,4 +41,3 @@ RUN  ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
   && chmod +x /bin/entrypoint.sh
 
 CMD ["/bin/entrypoint.sh"]
-
