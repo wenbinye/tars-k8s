@@ -8,6 +8,7 @@ RUN  chmod +x /bin/entrypoint.sh \
   && mkdir -p /usr/local/server/bin/
 
 COPY files/binary/{{app}} /usr/local/server/bin/
-ENV ServerType cpp
-
+ENV ServerType=cpp \
+    LANG=C.UTF-8
+    
 CMD ["/bin/entrypoint.sh"]

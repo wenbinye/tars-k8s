@@ -14,20 +14,27 @@ RUN strip /usr/lib/php/20190902/swoole.so
 FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    ServerType=php
+    ServerType=php \
+    LANG=C.UTF-8
 
 RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/;s/security.ubuntu.com/mirrors.aliyun.com/;' /etc/apt/sources.list \
   && apt-get update && apt-get install -y \
+  curl \
+  php-bcmath \
   php-cli \
   php-curl \
   php-fileinfo \
   php-gd \
+  php-ldap \
   php-mbstring \
   php-mysql \
+  php-pgsql \
   php-redis \
   php-soap \
   php-sybase \
+  php-xml \
   php-zip \
+  vim-tiny \
   && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /usr/lib/php/20190902/swoole.so /usr/lib/php/20190902/

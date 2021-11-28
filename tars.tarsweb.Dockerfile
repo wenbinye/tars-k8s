@@ -31,5 +31,7 @@ COPY --from=build /tars-web /tars-web
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && echo Asia/Shanghai > /etc/timezone
 
+ENV LANG=C.UTF-8
+
 WORKDIR /tars-web
 CMD ["node", "bin/www"]
