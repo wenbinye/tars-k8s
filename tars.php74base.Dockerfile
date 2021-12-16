@@ -47,4 +47,6 @@ RUN  ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
   && mkdir -p /usr/local/server/bin/ \
   && chmod +x /bin/entrypoint.sh
 
+WORKDIR /usr/local/server/bin
+
 CMD ["/bin/entrypoint.sh"]
