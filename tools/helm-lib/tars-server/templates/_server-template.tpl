@@ -23,7 +23,7 @@ spec:
     template: {{ .Values.template }}
     profile: {{ .Values.profile | quote }}
     asyncThread: {{ .Values.asyncThread | default 3 }}
-{{- if .Values.servants }}    
+{{- if .Values.servants }}
     servants:
 {{- range .Values.servants }}
     - name: {{ .name }}
@@ -35,27 +35,27 @@ spec:
       isTcp: {{ .isTcp }}
       timeout: {{ .timeout | default 60000 }}
 {{- end }}
-{{- else }}    
+{{- else }}
     servants: []
 {{- end }}
   k8s:
-{{- if .Release.IsUpgrade }}  
+{{- if .Release.IsUpgrade }}
     replicas: {{ (lookup "k8s.tars.io/v1beta1" "TServer" $.Release.Namespace $id ).spec.k8s.replicas }}
-{{- else }}    
+{{- else }}
     replicas: {{ .Values.replicas | default 1 }}
-{{- end }}    
+{{- end }}
     hostNetwork: {{ .Values.hostNetwork }}
     hostIPC: {{ .Values.hostIPC }}
 {{- if .Values.hostPorts }}
     hostPorts:
 {{- include "tserver.host-ports" . | indent 6 }}
 {{- end}}
-{{- if .Values.labelMatch}}      
+{{- if .Values.labelMatch}}
     nodeSelector:
 {{ toYaml .Values.labelMatch | indent 6}}
 {{- else}}
     nodeSelector: []
-{{- end}}      
+{{- end}}
     env:
 {{ include "tserver.env-vars" . | indent 6 }}
     mounts:
@@ -65,9 +65,13 @@ spec:
           path: /usr/local/app/tars/app_log
           type: DirectoryOrCreate
       mountPath: /usr/local/app/tars/app_log
-      subPathExpr: $(Namespace)/$(PodName)    
-{{- if .Values.mounts}}      
+      subPathExpr: $(Namespace)/$(PodName)
+{{- if .Values.mounts}}
 {{ toYaml .Values.mounts | indent 4}}
+{{- end}}
+{{- if .Values.resources}}
+    resources:
+{{ toYaml .Values.resources | indent 6}}
 {{- end}}
   release:
     source: {{ .Values.app | lower }}-{{ .Values.server | lower }}
@@ -81,8 +85,8 @@ apiVersion: k8s.tars.io/v1beta1
 kind: TConfig
 metadata:
   name: {{ $id }}-{{ .name | lower | replace "." "-" }}-{{ now | unixEpoch }}
-  annotations: 
-    helm.sh/resource-policy: keep  
+  annotations:
+    helm.sh/resource-policy: keep
 app: {{ $.Values.app }}
 server: {{ $.Values.server }}
 configName: {{ .name }}
@@ -100,8 +104,8 @@ apiVersion: k8s.tars.io/v1beta1
 kind: TConfig
 metadata:
   name: {{ $id }}-{{ .name | lower | replace "." "-" }}-{{ .podSeq }}-{{ now | unixEpoch }}
-  annotations: 
-    helm.sh/resource-policy: keep  
+  annotations:
+    helm.sh/resource-policy: keep
 app: {{ $.Values.app }}
 server: {{ $.Values.server }}
 podSeq: {{ .podSeq | quote }}
@@ -121,7 +125,7 @@ apiVersion: k8s.tars.io/v1beta1
 kind: TConfig
 metadata:
   name: {{ $id }}-{{ .name | lower | replace "." "-" }}-{{ now | unixEpoch }}
-  annotations: 
+  annotations:
     helm.sh/resource-policy: keep
 app: {{ $.Values.app }}
 server: ""
@@ -150,7 +154,7 @@ releases:
   id: {{ .Values.repo.id }}
   createPerson: {{ $.Values.user | default "helm" | quote }}
   mark: {{ $.Values.reason | default "helm install" | quote }}
-{{- range $index, $service := (lookup "k8s.tars.io/v1beta1" "TImage" $.Release.Namespace $id ).releases }}  
+{{- range $index, $service := (lookup "k8s.tars.io/v1beta1" "TImage" $.Release.Namespace $id ).releases }}
 - image: {{ $service.image }}
   id: {{ $service.id }}
   createPerson: {{ $service.createPerson | default "helm" }}
